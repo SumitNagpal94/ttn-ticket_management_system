@@ -1,5 +1,7 @@
 import { type FormEvent, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { AttachmentList } from '../../attachments/AttachmentList'
+import { AttachmentUpload } from '../../attachments/AttachmentUpload'
 import { CommentForm } from '../../comments/CommentForm'
 import { CommentList } from '../../comments/CommentList'
 import { ErrorAlert } from '../../components/ErrorAlert'
@@ -8,7 +10,8 @@ import { useAuth } from '../../auth/useAuth'
 import { ApiError } from '../../services/apiClient'
 import * as ticketApi from '../../services/ticketApi'
 import * as userApi from '../../services/userApi'
-import type { TicketPriority, UserSummary } from '../../types/api'
+import type { Attachment, TicketPriority, UserSummary } from '../../types/api'
+import * as attachmentApi from '../../services/attachmentApi'
 import { friendlyError } from '../../utils/errorMessages'
 import { TransitionButtons } from '../components/TransitionButtons'
 import { useTicketDetail } from '../hooks/useTicketDetail'
@@ -26,6 +29,7 @@ export function TicketDetailPage() {
   const [description, setDescription] = useState('')
   const [priority, setPriority] = useState<TicketPriority>('MEDIUM')
   const [assigneeId, setAssigneeId] = useState('')
+  const [attachments, setAttachments] = useState<Attachment[]>([])
 
   useEffect(() => {
     userApi.listAssignees().then(setAssignees).catch(() => {})
@@ -39,6 +43,21 @@ export function TicketDetailPage() {
       setAssigneeId(ticket.assignee ? String(ticket.assignee.id) : '')
     }
   }, [ticket])
+
+  async function loadAttachments() {
+    try {
+      const list = await attachmentApi.listAttachments(ticketId)
+      setAttachments(list)
+    } catch {
+      setAttachments([])
+    }
+  }
+
+  useEffect(() => {
+    if (ticketId) {
+      loadAttachments()
+    }
+  }, [ticketId, ticket])
 
   async function handleSave(e: FormEvent) {
     e.preventDefault()
@@ -100,6 +119,17 @@ export function TicketDetailPage() {
         </label>
         <button type="submit">Save changes</button>
       </form>
+      <section>
+        <h2>Attachments</h2>
+        <AttachmentList
+          ticketId={ticketId}
+          attachments={attachments}
+          user={user}
+          onDeleted={loadAttachments}
+          onError={(msg) => setSaveError(msg)}
+        />
+        <AttachmentUpload ticketId={ticketId} onUploaded={loadAttachments} />
+      </section>
       <section>
         <h2>Comments</h2>
         <CommentList comments={ticket.comments} />
