@@ -1,0 +1,14 @@
+---
+description: React frontend standards for TMS
+globs: "**/*.{tsx,ts,jsx,js}"
+alwaysApply: false
+---
+
+# React Frontend
+
+- Functional components with hooks; extract reusable logic into custom hooks
+- API calls in dedicated service modules aligned with backend REST resources
+- Every async view handles loading, error, and empty states
+- Environment-specific API base URL via build config (never hardcode prod URLs)
+- Mirror backend validation; display server `ErrorCode` messages consistently
+- Prefer composition over deep prop drilling; keep components focused

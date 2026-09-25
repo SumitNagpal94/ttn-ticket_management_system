@@ -1,0 +1,47 @@
+---
+description: Java and Spring Boot coding standards for TMS backend
+globs: "**/*.java"
+alwaysApply: false
+---
+
+# Java / Spring Boot
+
+## Structure
+
+- `@RestController` → `@Service` → `@Repository` → JPA entity
+- Validate requests with `@Valid`; document APIs with Springdoc OpenAPI
+- Global errors via `@ControllerAdvice` delegating to `TmsException`
+
+## Naming
+
+- Classes: PascalCase | Methods/fields: camelCase | Constants: ALL_CAPS
+
+## Patterns
+
+```java
+// ✅ Domain error
+throw new TmsException(ErrorCode.TICKET_NOT_FOUND);
+
+// ✅ Constructor injection
+public TicketService(TicketRepository repo) { this.repo = repo; }
+
+// ❌ Business logic in controller
+@GetMapping("/{id}")
+public Ticket get(@PathVariable Long id) {
+    return repo.findById(id).orElseThrow(...); // belongs in service
+}
+```
+
+## Java 21
+
+Use records for DTOs, sealed classes for closed hierarchies, pattern matching where it aids clarity.
+
+## Data & Performance
+
+- Spring Data JPA with Flyway/Liquibase migrations
+- Index frequently queried columns; return empty collections not null
+- `@Async` and Spring Cache only when justified
+
+## Testing
+
+JUnit 5 + Spring Boot Test: unit tests, MockMvc (web), `@DataJpaTest` (repos), `@SpringBootTest` (integration).

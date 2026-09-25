@@ -1,0 +1,49 @@
+---
+description: Spec Kit workflow — branch-based spec tracking and PR requirements
+alwaysApply: true
+---
+
+# Spec-Driven Development
+
+Every feature uses its own branch and `specs/` directory. Requirements and code stay synchronized.
+
+## Feature Layout
+
+```
+specs/<NNN-feature-name>/
+├── spec.md    # Requirements (what)
+├── plan.md    # Architecture (how)
+└── tasks.md   # Implementation steps (when)
+```
+
+Branch name MUST match directory: `001-ticket-crud` → `specs/001-ticket-crud/`.
+
+## Workflow Rules
+
+1. **Record prompts** — append every user prompt to `docs/prompt-history.md` (redact secrets)
+2. **Spec first** — create/update `spec.md` before writing code
+3. **Commit artifacts** — every change to spec/plan/tasks/prompt-history gets its own Git commit
+4. **Propagate changes** — requirement change → update spec → plan → tasks → code
+5. **One feature per branch** — never mix spec artifacts from different features
+6. **Analyze before implement** — run `/speckit.analyze` after plan and tasks
+
+## Prompt History Entry
+
+Append to `docs/prompt-history.md`:
+
+```
+## <timestamp>
+**Branch**: <branch>  **Feature**: <specs/NNN-name/ or —>  **Agent**: cursor
+**Prompt**: > verbatim user message
+**Outcome**: files changed / decisions made
+```
+
+## Pull Requests
+
+PRs MUST include the feature's `spec.md`, `plan.md`, `tasks.md`, code, and tests.
+PR description MUST link to `specs/<feature>/` and list acceptance criteria addressed.
+
+## Active Feature Detection
+
+Spec Kit resolves the active feature from Git branch name or `SPECIFY_FEATURE` env var.
+Always work on the matching feature branch when editing spec artifacts.

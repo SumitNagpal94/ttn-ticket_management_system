@@ -1,0 +1,20 @@
+# Build outputs
+**/build/
+**/dist/
+**/.gradle/
+**/node_modules/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# Local secrets (never commit)
+**/application-local.yml
+.env
+.env.local
+*.local
+
+# OS
+.DS_Store
+Thumbs.db

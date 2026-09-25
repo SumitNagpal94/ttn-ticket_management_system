@@ -1,0 +1,37 @@
+---
+description: Core TMS project governance and file references
+alwaysApply: true
+---
+
+# TMS Core Standards
+
+Ticket Management System — Java 21, Spring Boot 3.x, Gradle, PostgreSQL/H2, REST, React.
+
+## Non-Negotiables
+
+- Business logic in **service** classes only; controllers are HTTP adapters
+- Constructor injection; no field injection
+- Throw `TmsException(ErrorCode.*)` — never raw runtime exceptions for domain errors
+- Methods ≤ 50 lines; decompose when longer
+- Lombok on DTOs only
+- Secrets never in source, logs, or committed config
+
+## Authoritative File References
+
+| Concern | Path |
+|---------|------|
+| Dependencies | `build.gradle` |
+| Properties | `src/main/resources/application.yml` |
+| Config properties | `com.tms.common.config.TmsConfig` |
+| Security config | `com.tms.common.config.SecurityConfiguration`, `CommonConfiguration` |
+| API helpers | `com.tms.common.util.AppUtil` |
+| Security helpers | `com.tms.common.util.SecurityUtil` |
+| Shared utilities | `com.tms.common.util.Util` — search before creating |
+| Exceptions | `com.tms.common.exception.TmsException` |
+| Error codes | `com.tms.common.enums.ErrorCode` |
+| Prompt history | `docs/prompt-history.md` — append every AI prompt |
+
+## Package Layout
+
+`com.tms.<domain>.{controller,service,repository,model.{entity,dto}}`
+Shared code under `com.tms.common.{config,enums,exception,util}`.
