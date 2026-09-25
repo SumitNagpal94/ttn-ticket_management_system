@@ -8,6 +8,7 @@ public class TmsConfig {
     private Admin admin = new Admin();
     private Jwt jwt = new Jwt();
     private Pagination pagination = new Pagination();
+    private Attachments attachments = new Attachments();
 
     public Admin getAdmin() {
         return admin;
@@ -31,6 +32,14 @@ public class TmsConfig {
 
     public void setPagination(Pagination pagination) {
         this.pagination = pagination;
+    }
+
+    public Attachments getAttachments() {
+        return attachments;
+    }
+
+    public void setAttachments(Attachments attachments) {
+        this.attachments = attachments;
     }
 
     public static class Admin {
@@ -84,6 +93,36 @@ public class TmsConfig {
 
         public void setDefaultPageSize(int defaultPageSize) {
             this.defaultPageSize = defaultPageSize;
+        }
+    }
+
+    public static class Attachments {
+        private String storagePath = "./data/attachments";
+        private long maxFileSizeBytes = 10L * 1024 * 1024;
+        private int maxPerTicket = 20;
+
+        public String getStoragePath() {
+            return storagePath;
+        }
+
+        public void setStoragePath(String storagePath) {
+            this.storagePath = storagePath;
+        }
+
+        public long getMaxFileSizeBytes() {
+            return maxFileSizeBytes;
+        }
+
+        public void setMaxFileSizeBytes(long maxFileSizeBytes) {
+            this.maxFileSizeBytes = maxFileSizeBytes;
+        }
+
+        public int getMaxPerTicket() {
+            return maxPerTicket;
+        }
+
+        public void setMaxPerTicket(int maxPerTicket) {
+            this.maxPerTicket = maxPerTicket;
         }
     }
 }
