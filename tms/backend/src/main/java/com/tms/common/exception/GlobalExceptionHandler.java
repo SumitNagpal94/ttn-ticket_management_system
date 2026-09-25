@@ -48,7 +48,8 @@ public class GlobalExceptionHandler {
 
     private HttpStatus mapStatus(ErrorCode code) {
         return switch (code) {
-            case VALIDATION_ERROR, INVALID_TRANSITION -> HttpStatus.BAD_REQUEST;
+            case VALIDATION_ERROR, INVALID_TRANSITION, INVALID_FILE_TYPE, FILE_TOO_LARGE,
+                    ATTACHMENT_LIMIT_EXCEEDED -> HttpStatus.BAD_REQUEST;
             case UNAUTHORIZED, INVALID_CREDENTIALS -> HttpStatus.UNAUTHORIZED;
             case FORBIDDEN -> HttpStatus.FORBIDDEN;
             case NOT_FOUND -> HttpStatus.NOT_FOUND;

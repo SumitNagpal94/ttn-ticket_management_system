@@ -9,3 +9,7 @@ spring:
   h2:
     console:
       enabled: true
+
+tms:
+  attachments:
+    storage-path: ${java.io.tmpdir}/tms-test-attachments
