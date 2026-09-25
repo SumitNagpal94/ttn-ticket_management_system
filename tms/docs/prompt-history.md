@@ -275,3 +275,84 @@ prompt record (same branch as related work).
 - Created root `README.md`; updated `tasks.md` (82/94 complete — remaining: service-level unit tests T044–T045, T055–T056, T072–T073, T079–T080, quickstart VS-1–VS-9 manual run T092, secrets audit T094)
 
 ---
+
+## 2026-09-13T23:08:00+05:30
+
+**Branch**: `001-support-tickets`
+**Feature**: `specs/001-support-tickets/`
+**Agent**: `cursor`
+
+**Prompt**:
+
+> finish 001
+
+**Outcome**:
+
+- Added remaining backend tests (T044–T056, T072–T073, T079–T080) and `QuickstartValidationTest` for VS-1–VS-9
+- Fixed frontend assignee API to match contract (array response, not `{content}`)
+- All 94 tasks marked complete in `tasks.md`
+- Backend 39 tests passing; frontend build + 2 Vitest tests passing
+- T094: `application-local.yml` gitignored; no secrets in tracked files
+
+---
+
+## 2026-09-13T23:43:00+05:30
+
+**Branch**: `001-support-tickets`
+**Feature**: `specs/001-support-tickets/`
+**Agent**: `cursor`
+
+**Prompt**:
+
+> why "Please log in to continue." (ticket list shows error while nav shows Administrator logged in)
+
+**Outcome**:
+
+- Root cause: PostgreSQL + Hibernate bound null search keyword as `bytea`, causing `lower(bytea)` SQL error on `GET /api/tickets/grouped` without `q` param; Spring Security surfaced it as misleading 401 / `UNAUTHORIZED`
+- Fixed `TicketRepository.findByFilters` to use empty-string keyword guard instead of `IS NULL` + `CONCAT`
+- Added `{id:\\d+}` path constraints on `TicketController` to avoid `/grouped` conflicting with `/{id}`
+- Added `TicketControllerGroupedRouteTest` regression test against local PostgreSQL profile
+
+---
+
+## 2026-09-13T23:50:00+05:30
+
+**Branch**: `001-support-tickets`
+**Feature**: `specs/001-support-tickets/`
+**Agent**: `cursor`
+
+**Prompt**:
+
+> why next is enabled on UI if there is no tickets on next page
+
+**Outcome**: Fixed `TicketListPage` to disable Next when no section has `page + 1 < totalPages`.
+
+---
+
+## 2026-09-13T23:58:00+05:30
+
+**Branch**: `001-support-tickets`
+**Feature**: `specs/001-support-tickets/`
+**Agent**: `cursor`
+
+**Prompt**:
+
+> view drop down is redundant; default value in assignee is current user would solve the purpose remove it
+
+**Outcome**: Removed View dropdown from `TicketListPage`; assignee filter defaults to current user; "All assignees" replaces the former All tickets view.
+
+---
+
+## 2026-09-14T00:00:00+05:30
+
+**Branch**: `001-support-tickets`
+**Feature**: `specs/001-support-tickets/`
+**Agent**: `cursor`
+
+**Prompt**:
+
+> all code around it as well
+
+**Outcome**: Removed `view` query param end-to-end (`TicketController`, `TicketQueryService`, `ticketApi`, tests, spec/plan/contracts/quickstart).
+
+---
