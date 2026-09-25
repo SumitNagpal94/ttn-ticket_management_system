@@ -1,0 +1,4 @@
+# Copy to application-local.yml (gitignored) and set your DB password.
+spring:
+  datasource:
+    password: your-support_app-password-here

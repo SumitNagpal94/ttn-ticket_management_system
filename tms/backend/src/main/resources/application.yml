@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: tms-backend
+  profiles:
+    active: ${SPRING_PROFILES_ACTIVE:local}
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+
+server:
+  port: 8090
+
+tms:
+  admin:
+    username: ${TMS_ADMIN_USERNAME:admin}
+    password-hash: ${TMS_ADMIN_PASSWORD_HASH:}
+  jwt:
+    secret: ${TMS_JWT_SECRET:change-me-in-production-use-long-random-string}
+    expiration-ms: 86400000
+  pagination:
+    default-page-size: 30
