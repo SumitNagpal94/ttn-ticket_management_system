@@ -21,5 +21,7 @@ Slice branches merge into feature integration branches with `--no-ff`.
 | 014 | `014-backend-us6-search-filter` | backend | US6 | `001-support-tickets` |
 | 015 | `015-frontend-us6-search-filter` | frontend | US6 | `001-support-tickets` |
 | 016 | `016-polish-integration` | both | Polish | `001-support-tickets` |
+| 017 | `017-backend-ticket-attachments` | backend | 002 | `002-ticket-attachments` |
+| 018 | `018-frontend-ticket-attachments` | frontend | 002 | `002-ticket-attachments` |
 
 **`001-support-tickets`** — integration branch for support tickets (16 slices).  **`002-ticket-attachments`** — integration branch for attachments (2 slices).  **`main`** — baseline scaffold only.
