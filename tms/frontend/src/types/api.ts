@@ -52,6 +52,15 @@ export interface Comment {
   createdAt: string
 }
 
+export interface Attachment {
+  id: number
+  originalFilename: string
+  contentType: string
+  fileSize: number
+  uploadedBy: UserSummary
+  createdAt: string
+}
+
 export interface TicketDetail extends TicketSummary {
   description: string
   comments: Comment[]

@@ -49,3 +49,28 @@ export async function apiRequest<T>(
 
   return body as T
 }
+
+export async function apiUpload<T>(path: string, file: File): Promise<T> {
+  const formData = new FormData()
+  formData.append('file', file)
+  const headers: Record<string, string> = {}
+  const token = getToken()
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: 'POST',
+    headers,
+    body: formData,
+  })
+
+  const text = await response.text()
+  const body = text ? JSON.parse(text) : null
+
+  if (!response.ok) {
+    throw new ApiError(body as ErrorResponse)
+  }
+
+  return body as T
+}
